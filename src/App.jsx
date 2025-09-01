@@ -83,7 +83,7 @@ const AppContent = () => {
             />
             
             {/* Redirect unknown routes to landing */}
-            <Route path="*" element={<Navigate to="/landing" />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </Router>

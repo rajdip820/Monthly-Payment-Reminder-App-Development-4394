@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { SignedIn, SignedOut } from '@clerk/clerk-react'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { 
-  FiCreditCard, FiShield, FiCalendar, FiTrendingUp, FiCheck, 
-  FiDollarSign, FiClock, FiFileText, FiBell, FiMail, 
-  FiMenu, FiX, FiStar, FiUsers, FiArrowRight 
-} = FiIcons
+const { FiCreditCard, FiShield, FiCalendar, FiTrendingUp, FiCheck, FiDollarSign, FiClock, FiFileText, FiBell, FiMail, FiMenu, FiX, FiStar, FiUsers, FiArrowRight } = FiIcons
 
 const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -96,18 +93,20 @@ const LandingPage = () => {
 
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Link 
-                to="/auth" 
-                className="text-gray-600 hover:text-primary-600 transition-colors font-medium"
-              >
-                Sign In
-              </Link>
-              <Link 
-                to="/auth" 
-                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium"
-              >
-                Get Started
-              </Link>
+              <SignedOut>
+                <Link to="/auth" className="text-gray-600 hover:text-primary-600 transition-colors font-medium">
+                  Sign In
+                </Link>
+                <Link to="/auth" className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                  Get Started
+                </Link>
+              </SignedOut>
+              
+              <SignedIn>
+                <Link to="/dashboard" className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                  Go to Dashboard
+                </Link>
+              </SignedIn>
             </div>
 
             {/* Mobile Menu Button */}
@@ -132,18 +131,20 @@ const LandingPage = () => {
               <a href="#pricing" className="block text-gray-600 hover:text-primary-600 transition-colors">Pricing</a>
               <a href="#contact" className="block text-gray-600 hover:text-primary-600 transition-colors">Contact</a>
               <div className="pt-4 border-t border-gray-200 space-y-2">
-                <Link 
-                  to="/auth" 
-                  className="block text-center text-gray-600 hover:text-primary-600 transition-colors font-medium py-2"
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  to="/auth" 
-                  className="block text-center bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium"
-                >
-                  Get Started
-                </Link>
+                <SignedOut>
+                  <Link to="/auth" className="block text-center text-gray-600 hover:text-primary-600 transition-colors font-medium py-2">
+                    Sign In
+                  </Link>
+                  <Link to="/auth" className="block text-center bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                    Get Started
+                  </Link>
+                </SignedOut>
+                
+                <SignedIn>
+                  <Link to="/dashboard" className="block text-center bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                    Go to Dashboard
+                  </Link>
+                </SignedIn>
               </div>
             </motion.div>
           )}
@@ -160,21 +161,26 @@ const LandingPage = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                Never Miss a 
-                <span className="text-primary-600"> Payment</span> Again
+                Never Miss a <span className="text-primary-600">Payment</span> Again
               </h1>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                Take control of your finances with smart payment reminders, automated tracking, 
-                and powerful analytics. Stay organized and never pay late fees again.
+                Take control of your finances with smart payment reminders, automated tracking, and powerful analytics. Stay organized and never pay late fees again.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link 
-                  to="/auth"
-                  className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2"
-                >
-                  <span>Start Free Trial</span>
-                  <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
-                </Link>
+                <SignedOut>
+                  <Link to="/auth" className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
+                    <span>Start Free Trial</span>
+                    <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
+                  </Link>
+                </SignedOut>
+                
+                <SignedIn>
+                  <Link to="/dashboard" className="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
+                    <span>Go to Dashboard</span>
+                    <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
+                  </Link>
+                </SignedIn>
+                
                 <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors">
                   Watch Demo
                 </button>
@@ -215,7 +221,6 @@ const LandingPage = () => {
               Our comprehensive platform provides all the tools you need to manage your payments efficiently.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
@@ -225,10 +230,7 @@ const LandingPage = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow"
               >
-                <SafeIcon 
-                  icon={feature.icon} 
-                  className="h-12 w-12 text-primary-600 mb-4" 
-                />
+                <SafeIcon icon={feature.icon} className="h-12 w-12 text-primary-600 mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   {feature.title}
                 </h3>
@@ -252,7 +254,6 @@ const LandingPage = () => {
               Get started in just three simple steps and take control of your payments today.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -261,7 +262,7 @@ const LandingPage = () => {
                 description: "Quickly add all your recurring payments with due dates, amounts, and notes."
               },
               {
-                step: "02", 
+                step: "02",
                 title: "Set Up Reminders",
                 description: "Configure smart reminders to notify you before payments are due."
               },
@@ -304,7 +305,6 @@ const LandingPage = () => {
               Join thousands of satisfied users who have transformed their payment management.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
@@ -343,7 +343,6 @@ const LandingPage = () => {
               Choose the plan that works best for you. No hidden fees, cancel anytime.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               {
@@ -393,9 +392,7 @@ const LandingPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={`relative bg-white rounded-xl border-2 p-8 ${
-                  plan.popular 
-                    ? 'border-primary-600 shadow-lg' 
-                    : 'border-gray-200 shadow-sm'
+                  plan.popular ? 'border-primary-600 shadow-lg' : 'border-gray-200 shadow-sm'
                 }`}
               >
                 {plan.popular && (
@@ -405,7 +402,6 @@ const LandingPage = () => {
                     </span>
                   </div>
                 )}
-                
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                   <div className="mb-4">
@@ -413,7 +409,6 @@ const LandingPage = () => {
                     <span className="text-gray-600">/{plan.period}</span>
                   </div>
                 </div>
-
                 <ul className="space-y-4 mb-8">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
@@ -422,17 +417,25 @@ const LandingPage = () => {
                     </li>
                   ))}
                 </ul>
-
-                <Link
-                  to="/auth"
-                  className={`w-full py-3 px-4 rounded-lg font-semibold text-center block transition-colors ${
-                    plan.popular
-                      ? 'bg-primary-600 text-white hover:bg-primary-700'
+                <SignedOut>
+                  <Link to="/auth" className={`w-full py-3 px-4 rounded-lg font-semibold text-center block transition-colors ${
+                    plan.popular 
+                      ? 'bg-primary-600 text-white hover:bg-primary-700' 
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                  }`}
-                >
-                  Get Started
-                </Link>
+                  }`}>
+                    Get Started
+                  </Link>
+                </SignedOut>
+                
+                <SignedIn>
+                  <Link to="/dashboard" className={`w-full py-3 px-4 rounded-lg font-semibold text-center block transition-colors ${
+                    plan.popular 
+                      ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}>
+                    Go to Dashboard
+                  </Link>
+                </SignedIn>
               </motion.div>
             ))}
           </div>
@@ -453,13 +456,19 @@ const LandingPage = () => {
             <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
               Join thousands of users who never miss a payment. Start your free trial today.
             </p>
-            <Link
-              to="/auth"
-              className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors inline-flex items-center space-x-2"
-            >
-              <span>Start Free Trial</span>
-              <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
-            </Link>
+            <SignedOut>
+              <Link to="/auth" className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors inline-flex items-center space-x-2">
+                <span>Start Free Trial</span>
+                <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
+              </Link>
+            </SignedOut>
+            
+            <SignedIn>
+              <Link to="/dashboard" className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors inline-flex items-center space-x-2">
+                <span>Go to Dashboard</span>
+                <SafeIcon icon={FiArrowRight} className="h-5 w-5" />
+              </Link>
+            </SignedIn>
           </motion.div>
         </div>
       </section>
@@ -482,7 +491,6 @@ const LandingPage = () => {
                 </a>
               </div>
             </div>
-
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
@@ -492,7 +500,6 @@ const LandingPage = () => {
                 <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
               </ul>
             </div>
-
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
@@ -502,7 +509,6 @@ const LandingPage = () => {
                 <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
               </ul>
             </div>
-
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400">
@@ -513,7 +519,6 @@ const LandingPage = () => {
               </ul>
             </div>
           </div>
-
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>&copy; 2024 PayReminder. All rights reserved.</p>
           </div>
